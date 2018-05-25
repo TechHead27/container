@@ -4,19 +4,11 @@ extern "C" {
 
 #include <cstdio>
 #include <cstdlib>
-#include <vector>
 
-//#include "UserMount.hpp"
-
-struct Options {
-    unsigned int time;
-    bool net;
-    char *program;
-    std::vector<char*> args;
-};
+#include "UserMount.hpp"
 
 error_t parse_arg(int key, char *arg, struct argp_state *state) {
-    struct Options *output = (struct Options*)state->input;
+    Options *output = (Options*)state->input;
 
     switch (key) {
         case 't':
@@ -37,10 +29,10 @@ error_t parse_arg(int key, char *arg, struct argp_state *state) {
     return 0;
 }
 
-struct Options processOptions(int argc, char **argv) {
+Options processOptions(int argc, char **argv) {
     struct argp parser;
     struct argp_option options[3];
-    struct Options result = { 0 };
+    Options result = { 0 };
 
     options[0] = {"time", 't', "limit", 0, "Execution time allowed"};
     options[1] = {"network", 'n', NULL, 0, "Allow network access"};
@@ -51,18 +43,18 @@ struct Options processOptions(int argc, char **argv) {
     return result;
 }
 
-void test_args(struct Options *opts) {
+void test_args(Options *opts) {
     printf("Run %s for %u seconds with %i network acess with arguments ",
         opts->program, opts->time, opts->net);
 }
 
 int main(int argc, char **argv) {
-    struct Options opts = processOptions(argc, argv);
+    Options opts = processOptions(argc, argv);
     test_args(&opts);
-    //UserMount um(opts);
+    UserMount um(opts);
 
-    //um.start();
-    //um.wait();
+    um.start();
+    um.wait();
 
     return 0;
 }
