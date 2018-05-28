@@ -28,6 +28,7 @@ void UserMount::createFS() {
     checkError(mkdir("old_root", S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH), "making fs");
 
     checkError(symlink("usr/lib", "lib"), "creating symlink");
+    checkError(symlink("usr/lib", "lib64"), "creating symlink");
     checkError(symlink("usr/bin", "bin"), "creating symlink");
     checkError(symlink("usr/bin", "sbin"), "creating symlink");
 
@@ -119,8 +120,8 @@ void UserMount::start() {
     checkError(close(gidMapFd), "closing inner gid_map");
 
     // Create new root
-    //checkError(syscall(SYS_pivot_root, ".", "old_root"), "pivoting root");
-    //checkError(umount2("old_root", MNT_DETACH), "unmounting root");
+    checkError(syscall(SYS_pivot_root, ".", "old_root"), "pivoting root");
+    checkError(umount2("old_root", MNT_DETACH), "unmounting root");
 
     close(opts.pipe[1]);
 

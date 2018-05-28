@@ -44,7 +44,7 @@ Options processOptions(int argc, char **argv) {
 }
 
 void test_args(Options *opts) {
-    printf("Run %s for %u seconds with %i network acess with arguments ",
+    printf("Run %s for %u seconds with %i network acess with arguments \n",
         opts->program, opts->time, opts->net);
 }
 
@@ -56,5 +56,5 @@ int main(int argc, char **argv) {
     um.start();
     um.wait();
 
-    return 0;
+    exit(0);
 }
