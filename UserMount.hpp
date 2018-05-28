@@ -3,6 +3,8 @@
 #include <vector>
 #include <cstdio>
 #include <cstdlib>
+#include <string>
+
 extern "C" {
 #include <errno.h>
 #include <sched.h>
@@ -33,7 +35,7 @@ class UserMount {
         void wait();
         void killChild();
 
-        static int checkError(int err);
+        static int checkError(int err, std::string errMsg);
 
         static const int STACK_SIZE = 1000000;
         static const int NOBODY = 99;
